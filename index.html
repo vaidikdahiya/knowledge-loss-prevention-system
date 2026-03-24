@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KLPS — Knowledge Loss Prevention System</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">KLPS</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">⬡</span> Dashboard
+        </a>
+        <a href="#" class="nav-item" data-page="knowledge-base">
+          <span class="nav-icon">⬡</span> Knowledge Base
+        </a>
+        <a href="#" class="nav-item" data-page="capture">
+          <span class="nav-icon">⬡</span> Capture Knowledge
+        </a>
+        <a href="#" class="nav-item" data-page="experts">
+          <span class="nav-icon">⬡</span> Expert Profiles
+        </a>
+        <a href="#" class="nav-item" data-page="risk">
+          <span class="nav-icon">⬡</span> Risk Monitor
+        </a>
+        <a href="#" class="nav-item" data-page="search">
+          <span class="nav-icon">⬡</span> Search & Retrieve
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">AD</div>
+          <div>
+            <div class="user-name">Admin User</div>
+            <div class="user-role">Knowledge Manager</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+        <div class="topbar-actions">
+          <button class="btn-icon" title="Notifications">🔔</button>
+          <button class="btn-primary" onclick="showPage('capture')">+ Capture</button>
+        </div>
+      </header>
+
+      <!-- Pages -->
+      <div id="page-dashboard" class="page active">
+        <div class="page-header">
+          <h1>Knowledge Overview</h1>
+          <p class="subtitle">Organizational intelligence at a glance</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-num">1,284</div>
+            <div class="stat-label">Knowledge Articles</div>
+            <div class="stat-delta positive">+12 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">47</div>
+            <div class="stat-label">Expert Contributors</div>
+            <div class="stat-delta positive">+3 new</div>
+          </div>
+          <div class="stat-card risk">
+            <div class="stat-num">8</div>
+            <div class="stat-label">High-Risk Gaps</div>
+            <div class="stat-delta negative">⚠ Needs Action</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">94%</div>
+            <div class="stat-label">Retention Score</div>
+            <div class="stat-delta positive">↑ 2.1%</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header">Recent Captures</div>
+            <ul class="feed-list" id="recentCaptures"></ul>
+          </div>
+          <div class="card">
+            <div class="card-header">Knowledge Risk Heatmap</div>
+            <div class="risk-heatmap" id="riskHeatmap"></div>
+          </div>
+        </div>
+
+        <div class="card mt">
+          <div class="card-header">Knowledge by Domain</div>
+          <div class="bar-chart" id="barChart"></div>
+        </div>
+      </div>
+
+      <!-- Knowledge Base Page -->
+      <div id="page-knowledge-base" class="page">
+        <div class="page-header">
+          <h1>Knowledge Base</h1>
+          <p class="subtitle">All captured institutional knowledge</p>
+        </div>
+        <div class="toolbar">
+          <input type="text" class="search-input" placeholder="Search articles..." id="kbSearch" oninput="filterKB()"/>
+          <select class="filter-select" id="kbFilter" onchange="filterKB()">
+            <option value="">All Domains</option>
+            <option>Engineering</option>
+            <option>Operations</option>
+            <option>HR & Culture</option>
+            <option>Finance</option>
+            <option>Product</option>
+          </select>
+        </div>
+        <div class="kb-grid" id="kbGrid"></div>
+      </div>
+
+      <!-- Capture Page -->
+      <div id="page-capture" class="page">
+        <div class="page-header">
+          <h1>Capture Knowledge</h1>
+          <p class="subtitle">Document expertise before it walks out the door</p>
+        </div>
+        <div class="form-card">
+          <div class="form-group">
+            <label>Knowledge Title *</label>
+            <input type="text" class="form-input" id="capTitle" placeholder="e.g. Quarterly Budget Reconciliation Process"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Domain</label>
+              <select class="form-input" id="capDomain">
+                <option>Engineering</option>
+                <option>Operations</option>
+                <option>HR & Culture</option>
+                <option>Finance</option>
+                <option>Product</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Criticality</label>
+              <select class="form-input" id="capCriticality">
+                <option>Low</option>
+                <option>Medium</option>
+                <option selected>High</option>
+                <option>Critical</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Expert / Owner</label>
+            <input type="text" class="form-input" id="capExpert" placeholder="Who holds this knowledge?"/>
+          </div>
+          <div class="form-group">
+            <label>Knowledge Description *</label>
+            <textarea class="form-input form-textarea" id="capDesc" placeholder="Describe the knowledge, process, context, and any nuances..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Tags (comma separated)</label>
+            <input type="text" class="form-input" id="capTags" placeholder="process, finance, quarterly"/>
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="saveKnowledge()">Save to Knowledge Base</button>
+            <button class="btn-secondary" onclick="clearForm()">Clear</button>
+          </div>
+          <div class="form-success" id="capSuccess" style="display:none">✓ Knowledge captured successfully!</div>
+        </div>
+      </div>
+
+      <!-- Experts Page -->
+      <div id="page-experts" class="page">
+        <div class="page-header">
+          <h1>Expert Profiles</h1>
+          <p class="subtitle">Track who knows what in your organization</p>
+        </div>
+        <div class="experts-grid" id="expertsGrid"></div>
+      </div>
+
+      <!-- Risk Monitor Page -->
+      <div id="page-risk" class="page">
+        <div class="page-header">
+          <h1>Risk Monitor</h1>
+          <p class="subtitle">Identify and mitigate knowledge loss risks</p>
+        </div>
+        <div class="risk-list" id="riskList"></div>
+      </div>
+
+      <!-- Search Page -->
+      <div id="page-search" class="page">
+        <div class="page-header">
+          <h1>Search & Retrieve</h1>
+          <p class="subtitle">Find any knowledge instantly</p>
+        </div>
+        <div class="search-hero">
+          <input type="text" class="search-big" id="globalSearch" placeholder="Search across all knowledge..." oninput="globalSearchFn()"/>
+        </div>
+        <div id="searchResults" class="kb-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="src/data/knowledge.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
