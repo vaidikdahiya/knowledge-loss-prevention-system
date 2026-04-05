@@ -122,4 +122,4 @@ CSS custom properties are defined in `:root` in `styles/main.css` for easy themi
 
 ## 📄 License
 
-MIT — Free to use and modify.
+MIT — Free to use and modify. ( note : this is just the frontend of the prooject i am yet to link database the prior knowledge was fed at creation of src so it is not live yet )
